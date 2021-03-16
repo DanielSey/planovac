@@ -46,15 +46,16 @@ void sigint(int sig) {
     printf("\n\nStats\n\n");
     double sum = 0.0;
     for (int i = 0; i < MaxGThreads; i++) {
-	printf("Thread id:%d\n", i);
-	printf("Total run time: %f\n", gttbl[i].totalRunTime);
-	/*printf("Min. time: %f\n", gttbl[i].minRunTime);
-	printf("Max. time: %f\n", gttbl[i].maxRunTime);
-	printf("Avg. time: %f\n", gttbl[i].totalRunTime / gttbl[i].countRunAvg);*/
+	printf("        Thread id:%d\n", i);
+	printf("Total run time:  %f\n", gttbl[i].totalRunTime);
+	printf(" Min. run time:  %f\n", gttbl[i].minRunTime);
+	printf(" Max. run time:  %f\n", gttbl[i].maxRunTime);
+	printf(" Avg. run time:  %f\n", gttbl[i].totalRunTime / gttbl[i].countRunAvg);
+	printf("-------------------------\n");
 	printf("Total wait time: %f\n", gttbl[i].totalWaitTime);
-	/*printf("Min. waiting time: %f\n", gttbl[i].minTime2);
-	printf("Max. waiting time: %f\n", gttbl[i].maxTime2);
-	printf("Avg. waiting time: %f\n", gttbl[i].totalTime2 / gttbl[i].countAvg2);*/
+	printf(" Min. wait time: %f\n", gttbl[i].minWaitTime);
+	printf(" Max. wait time: %f\n", gttbl[i].maxWaitTime);
+	printf(" Avg. wait time: %f\n", gttbl[i].totalWaitTime / gttbl[i].countWaitAvg);
 	printf("\n");
 	sum += gttbl[i].totalRunTime;
     }
