@@ -30,7 +30,7 @@ struct gt {
 };
 
 struct timespec startTime, endTime;
-//struct timespec startTime2, endTime2;
+struct timespec startTime2, endTime2;
 
 void gtinit(void);				// initialize gttbl
 void gtret(int ret);			// terminate thread

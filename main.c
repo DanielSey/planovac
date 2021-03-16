@@ -21,7 +21,6 @@ void f(void) {
 
   id = ++x;
   while (true) {
-
     printf("F Thread id = %d, val = %d BEGINNING\n", id, ++i);
     uninterruptibleNanoSleep(0, 50000000);
     printf("F Thread id = %d, val = %d END\n", id, ++i);
@@ -36,12 +35,10 @@ void g(void) {
 
   id = ++x;
   while (true) {
-
     printf("G Thread id = %d, val = %d BEGINNING\n", id, ++i);
     uninterruptibleNanoSleep(0, 50000000);
     printf("G Thread id = %d, val = %d END\n", id, ++i);
     uninterruptibleNanoSleep(0, 50000000);
-
   }
 }
 

@@ -55,7 +55,7 @@ bool gtyield(void) {
     gtcur -> st = Ready;
   }
   
-  //clock_gettime(CLOCK_MONOTONIC_RAW, &startTime2);
+  clock_gettime(CLOCK_MONOTONIC_RAW, &startTime2);
   
   if (tmp_test != 0) {
       gtcur -> countAvg++;
@@ -78,7 +78,7 @@ bool gtyield(void) {
   gtcur = p;							// switch current indicator to new thread
   gtswtch(old, new);					// perform context switch (assembly in gtswtch.S)
   
-  //clock_gettime(CLOCK_MONOTONIC_RAW, &endTime2);
+  clock_gettime(CLOCK_MONOTONIC_RAW, &endTime2);
   clock_gettime(CLOCK_MONOTONIC_RAW, &startTime);
   
   if (tmp_test == 0){
