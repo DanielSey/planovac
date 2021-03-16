@@ -50,7 +50,11 @@ void sigint(int sig) {
 	printf("Total runtime: %f\n", gttbl[i].totalTime);
 	printf("Min. time: %f\n", gttbl[i].minTime);
 	printf("Max. time: %f\n", gttbl[i].maxTime);
-	printf("Avg. time: %f\n\n", gttbl[i].totalTime / gttbl[i].countAvg);
+	printf("Avg. time: %f\n", gttbl[i].totalTime / gttbl[i].countAvg);
+	printf("Total waiting time: %f\n", gttbl[i].totalTime2);
+	printf("Min. waiting time: %f\n", gttbl[i].minTime2);
+	printf("Max. waiting time: %f\n", gttbl[i].maxTime2);
+	printf("Avg. waiting time: %f\n\n", gttbl[i].totalTime2 / gttbl[i].countAvg2);
 	sum += gttbl[i].totalTime;
     }
     printf("Sum: %f\n", sum); 

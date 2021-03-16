@@ -55,36 +55,51 @@ bool gtyield(void) {
     gtcur -> st = Ready;
   }
   
-  clock_gettime(CLOCK_MONOTONIC_RAW, &startTime2);
-  
+ 
   if (tmp_test != 0) {
-      gtcur -> countAvg++;
-      clock_gettime(CLOCK_MONOTONIC_RAW, &endTime);
+      gtcur->countAvg++;
+      gtcur->countAvg2++;
+      clock_gettime(CLOCK_MONOTONIC_RAW, &startTime2); // start timer for breaks
+      clock_gettime(CLOCK_MONOTONIC_RAW, &endTime); // stop timer for run
       uint64_t time = (double)(endTime.tv_sec - startTime.tv_sec) * 1000000 + (double)(endTime.tv_nsec - startTime.tv_nsec) / 1000;
       double time2 = (double)time / 1000000;
       gtcur->totalTime += time2;
       
-      if (time2 < gtcur -> minTime) {
-      	p->minTime = time2;
+      if (time2 < gtcur->minTime) {
+      	gtcur->minTime = time2;
       }
-      if (time2 > p->maxTime) {
-      	p->maxTime = time2;
+      if (time2 > gtcur->maxTime) {
+      	gtcur->maxTime = time2;
       }
   }
-  
+
   p -> st = Running;
   old = & gtcur -> ctx;					// prepare pointers to context of current (will become old) 
   new = & p -> ctx;						// and new to new thread found in previous loop
   gtcur = p;							// switch current indicator to new thread
   gtswtch(old, new);					// perform context switch (assembly in gtswtch.S)
   
-  clock_gettime(CLOCK_MONOTONIC_RAW, &endTime2);
-  clock_gettime(CLOCK_MONOTONIC_RAW, &startTime);
-  
   if (tmp_test == 0){
-      p->minTime = 10000.0;
-      tmp_test++;
+    gtcur->minTime = 10000.0;
+    gtcur->minTime2 = 10000.0;
+    tmp_test++;
   }
+  
+  clock_gettime(CLOCK_MONOTONIC_RAW, &endTime2); // stop timer for breaks
+  uint64_t time4 = (double)(endTime2.tv_sec - startTime2.tv_sec) * 1000000 + (double)(endTime2.tv_nsec - startTime2.tv_nsec) / 1000;
+  double time3 = (double)time4 / 1000000;
+  gtcur->totalTime2 += time3;
+  
+  if (time3 < gtcur->minTime2) {
+    gtcur->minTime2 = time3;
+  }
+  if (time3 > gtcur->maxTime2) {
+    gtcur->maxTime2 = time3;
+  }
+  
+  clock_gettime(CLOCK_MONOTONIC_RAW, &startTime); // start timer for run
+  
+
   
   return true;
 }
@@ -103,7 +118,7 @@ int gtgo(void( * f)(void)) {
     if (p == & gttbl[MaxGThreads])		// if we have reached the end, gttbl is full and we cannot create a new thread
       return -1;
     else if (p -> st == Unused)
-    break;								// new slot was found
+      break;								// new slot was found
 
   stack = malloc(StackSize);			// allocate memory for stack of newly created thread
   if (!stack)
@@ -114,11 +129,17 @@ int gtgo(void( * f)(void)) {
   p -> ctx.rsp = (uint64_t) & stack[StackSize - 16];			//  set stack pointer
   p -> st = Ready;												//  set state
 
-
+  clock_gettime(CLOCK_MONOTONIC_RAW, &startTime2); // start timer for breaks
   p -> totalTime = 0.0;
   p -> minTime = 0.0;
   p -> maxTime = 0.0;
   p -> countAvg = 0;
+  
+  p -> totalTime2 = 0.0;
+  p -> minTime2 = 0.0;
+  p -> maxTime2 = 0.0;
+  p -> countAvg2 = 1;
+  
   
   return 0;
 }

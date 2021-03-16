@@ -23,10 +23,16 @@ struct gt {
   }
   st;
   double totalTime;
+  double totalTime2;
+  
   double minTime;
+  double minTime2;
+  
   double maxTime;
-  double waitTime;
+  double maxTime2;
+  
   int countAvg;
+  int countAvg2;
 };
 
 struct timespec startTime, endTime;
