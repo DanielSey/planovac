@@ -96,11 +96,11 @@ bool gtyield(void) {
   p->totalWaitTime += timeSec2;
   p->countWaitAvg++;
   
-  if (timeSec2 < gtcur->minWaitTime) {
-     gtcur->minWaitTime = timeSec2;
+  if (timeSec2 < p->minWaitTime) {
+     p->minWaitTime = timeSec2;
   }
-  if (timeSec2 > gtcur->maxWaitTime) {
-     gtcur->maxWaitTime = timeSec2;
+  if (timeSec2 > p->maxWaitTime) {
+     p->maxWaitTime = timeSec2;
   }
   
   // start run time of new thread
