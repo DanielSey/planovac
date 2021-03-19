@@ -48,7 +48,7 @@ void sigint(int sig) {
     // for 100% work
     clock_gettime(CLOCK_MONOTONIC_RAW, &end);
     uint64_t time = (double)(end.tv_sec - start.tv_sec) * 1000000 + (double)(end.tv_nsec - start.tv_nsec) / 1000;
-    printf("                    Time: %f\n\n", (double)time/1000000);
+    printf("                  Time: %f sec.\n\n", (double)time/1000000);
     
     //double sum = 0.0;
     for (int i = 0; i < MaxGThreads; i++) {
