@@ -54,7 +54,7 @@ void sigint(int sig) {
     //double sum = 0.0;
     for (int i = 0; i < MaxGThreads; i++) {
 	//timeArr[i] = gttbl[i].priority;
-	printf("                     Thread id: %d\n", gttbl[i].id);
+	printf("                     Thread id: %d\n", i);
 	printf("                  Thread priority: %d\n", gttbl[i].priority);
 	printf("      Run                 |       Wait\n"); // +6
 	printf("Total run time:  %f | Total wait time: %f\n", gttbl[i].totalRunTime, gttbl[i].totalWaitTime);
@@ -69,7 +69,7 @@ void sigint(int sig) {
     /*printf("                     Priority\n");
     printf("                  Time: %f sec.\n\n", (double)time/1000000);
     for (int i = 0; i < MaxGThreads; i++) {
-	printf("Thread id: %d, Priority: %d, run time: %f\n", gttbl[i].id, gttbl[i].priority, gttbl[i].totalRunTime);
+	printf("Thread id: %d, Priority: %d, run time: %f\n", i, gttbl[i].priority, gttbl[i].totalRunTime);
     }
     printf("\n");*/
 
@@ -83,17 +83,17 @@ int main(void) {
   // for 100% work
   clock_gettime(CLOCK_MONOTONIC_RAW, &start);
     
-  gtinit(10, 0);		// initialize threads, see gthr.c
-  gtgo(f, 9, 1);		// set f() as first thread
-  gtgo(f, 8, 2);		// set f() as second thread
-  gtgo(g, 7, 3);		// set g() as third thread
-  gtgo(g, 6, 4);		// set g() as fourth thread
-  gtgo(f, 5, 5);
-  gtgo(f, 4, 6);
-  gtgo(f, 3, 7);
-  gtgo(g, 2, 8);
-  gtgo(g, 1, 9);
-  gtgo(g, 0, 10);
+  gtinit(10);		// initialize threads, see gthr.c
+  gtgo(f, 9);		// set f() as first thread
+  gtgo(f, 8);		// set f() as second thread
+  gtgo(g, 7);		// set g() as third thread
+  gtgo(g, 6);		// set g() as fourth thread
+  gtgo(f, 5);
+  gtgo(f, 4);
+  gtgo(f, 3);
+  gtgo(g, 2);
+  gtgo(g, 1);
+  gtgo(g, 0);
   
   gtret(1);		// wait until all threads terminate
 }
