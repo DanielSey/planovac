@@ -58,76 +58,25 @@ bool gtyield(void) {
   struct gt * p;
   struct gtctx * old, * new;
 
-  resetsig(SIGALRM);			        // reset signal
+  resetsig(SIGALRM);			// reset signal
 
   p = gtcur;
   
-  // 1. najdu vsechy co jsou ready
-  // 2. setridim je podle priority
-  // 3. vezmu toho prvniho
-  // 4. hladoveni - vezmu toho prvniho a dam mu o 1 minus prioritu, ostatnim zvednu prioritu o 1
-  
-  
-    //struct gt * threadArr[MaxGThreads-1];
-
-    /*for(int i = 0; i < MaxGThreads-1; i++) {
-        p = & gttbl[i];
-    	if (p -> st == Ready) {
-  	  threadArr[i] = p;
+  while (true) {
+  	if (p->st == Ready && p->actualPriority <= 0) {
+    	break;
   	}
-    }*/
+  	else {
+			p->actualPriority--;
+		}
+    if (++p == & gttbl[MaxGThreads])
+      p = & gttbl[0];
+  }
+ 	p->actualPriority = p->priority;
 
-    //sort arr
-    for (int i = 0; i < MaxGThreads-1; i++) {     
-	for (int j = 0; j < MaxGThreads-i-1; j++) {
-	   if (gttbl[j].actualPriority > gttbl[j+1].actualPriority) {
-	      struct gt temp = gttbl[j]; 
-    	      gttbl[j] = gttbl[j+1]; 
-              gttbl[j+1] = temp;
-	   }
- 	}
-    }
- 
-    /*for (int i=0; i < MaxGThreads; i++) {
-        printf("threadArr id: %d, status: %d, priority: %d\n", gttbl[i].id, gttbl[i].st, gttbl[i].actualPriority); 
-     }
-    printf("\n"); */
-    //printf("2 for\n");
-     
-    int i = 0;
-    for(; i < MaxGThreads; i++) {
-      p = & gttbl[i];
-      if (p->st == Ready) {
-        p->actualPriority = p->priority;
-        break;
-      }
-      else
-        p++;
-    }
-    //i++;
-    for(; i < MaxGThreads; i++) {
-      if (gttbl[i].actualPriority != 0) {
-        gttbl[i].actualPriority--;
-      }
-    }
-    
-  
-    /*while (p -> st != Ready) {		// iterate through gttbl[] until we find new thread in state Ready 	 
-      if (++p == & gttbl[MaxGThreads]) {         // at the end rotate to the beginning
-        p = & gttbl[0];
-      }
-    
-      if (p == gtcur) {				// did not find any other Ready threads
-        return false;
-      }
-    }*/
-
-  if (gtcur -> st != Unused) {		// switch current to Ready....
+  if (gtcur -> st != Unused) {			// switch current to Ready and new thread found in previous loop to Running
     gtcur -> st = Ready;
   }
-  
-  // gtcur - ten puvodni
-  // p - novy
   
   // stop run time of previous thread
   clock_gettime(CLOCK_MONOTONIC_RAW, &gtcur->endRunClock);
@@ -146,7 +95,7 @@ bool gtyield(void) {
   // start wait time of previous thread
   clock_gettime(CLOCK_MONOTONIC_RAW, &gtcur->startWaitClock);
   
-  p -> st = Running;                          // ...and new thread found in previous loop to Running
+  p -> st = Running;
   
   // stop wait time of new thread
   clock_gettime(CLOCK_MONOTONIC_RAW, &p->endWaitClock);

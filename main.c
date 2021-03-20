@@ -66,12 +66,12 @@ void sigint(int sig) {
     }
     //printf("Sum run time: %f\n", sum); 
     
-    printf("                     Priority\n");
+    /*printf("                     Priority\n");
     printf("                  Time: %f sec.\n\n", (double)time/1000000);
     for (int i = 0; i < MaxGThreads; i++) {
 	printf("Thread id: %d, Priority: %d, run time: %f\n", gttbl[i].id, gttbl[i].priority, gttbl[i].totalRunTime);
     }
-    printf("\n");
+    printf("\n");*/
 
     exit(0);
 }
@@ -83,11 +83,17 @@ int main(void) {
   // for 100% work
   clock_gettime(CLOCK_MONOTONIC_RAW, &start);
     
-  gtinit(9, 0);		// initialize threads, see gthr.c
-  gtgo(f, 8, 1);		// set f() as first thread
-  gtgo(f, 6, 2);		// set f() as second thread
-  gtgo(g, 3, 3);		// set g() as third thread
-  gtgo(g, 0, 4);		// set g() as fourth thread
+  gtinit(10, 0);		// initialize threads, see gthr.c
+  gtgo(f, 9, 1);		// set f() as first thread
+  gtgo(f, 8, 2);		// set f() as second thread
+  gtgo(g, 7, 3);		// set g() as third thread
+  gtgo(g, 6, 4);		// set g() as fourth thread
+  gtgo(f, 5, 5);
+  gtgo(f, 4, 6);
+  gtgo(f, 3, 7);
+  gtgo(g, 2, 8);
+  gtgo(g, 1, 9);
+  gtgo(g, 0, 10);
   
   gtret(1);		// wait until all threads terminate
 }

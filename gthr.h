@@ -1,5 +1,5 @@
 enum {
-    MaxGThreads = 5,		// Maximum number of threads, used as array size for gttbl
+    MaxGThreads = 11,		// Maximum number of threads, used as array size for gttbl
     StackSize = 0x400000,	// Size of stack of each thread
 };
 
