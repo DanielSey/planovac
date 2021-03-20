@@ -56,7 +56,7 @@ void sigint(int sig) {
 	//timeArr[i] = gttbl[i].priority;
 	printf("                     Thread id: %d\n", i);
 	printf("                  Thread priority: %d\n", gttbl[i].priority);
-	printf("      Run                 |       Wait\n"); // +6
+	printf("      Run                 |       Wait\n");
 	printf("Total run time:  %f | Total wait time: %f\n", gttbl[i].totalRunTime, gttbl[i].totalWaitTime);
 	printf(" Min. run time:  %f |  Min. wait time: %f\n", gttbl[i].minRunTime, gttbl[i].minWaitTime);
 	printf(" Max. run time:  %f |  Max. wait time: %f\n", gttbl[i].maxRunTime, gttbl[i].maxWaitTime);
