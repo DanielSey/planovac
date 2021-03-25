@@ -1,5 +1,5 @@
 enum {
-    MaxGThreads = 11,		// Maximum number of threads, used as array size for gttbl
+    MaxGThreads = 5,		// Maximum number of threads, used as array size for gttbl
     StackSize = 0x400000,	// Size of stack of each thread
 };
 
@@ -25,6 +25,7 @@ struct gt {
   
   int priority;
   int actualPriority;
+  int tickets[2];
   
   struct timespec startRunClock, endRunClock;
   double totalRunTime;

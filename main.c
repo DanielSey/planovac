@@ -12,7 +12,7 @@
 #include "gthr.h"
 #include "gthr_struct.h"
 
-struct timespec start, end; // for 100% work
+struct timespec start, end;
 
 // Dummy function to simulate some thread work
 void f(void) {
@@ -53,23 +53,23 @@ void sigint(int sig) {
     //double timeArr[10];
     //double sum = 0.0;
     for (int i = 0; i < MaxGThreads; i++) {
-	//timeArr[i] = gttbl[i].priority;
-	printf("                     Thread id: %d\n", i);
-	printf("                  Thread priority: %d\n", gttbl[i].priority);
-	printf("      Run                 |       Wait\n");
-	printf("Total run time:  %f | Total wait time: %f\n", gttbl[i].totalRunTime, gttbl[i].totalWaitTime);
-	printf(" Min. run time:  %f |  Min. wait time: %f\n", gttbl[i].minRunTime, gttbl[i].minWaitTime);
-	printf(" Max. run time:  %f |  Max. wait time: %f\n", gttbl[i].maxRunTime, gttbl[i].maxWaitTime);
-	printf(" Avg. run time:  %f |  Avg. wait time: %f\n", gttbl[i].totalRunTime / gttbl[i].countRunAvg, gttbl[i].totalWaitTime / gttbl[i].countWaitAvg);
-	printf("\n");
-	//sum += gttbl[i].totalRunTime;
+			//timeArr[i] = gttbl[i].priority;
+			printf("                     Thread id: %d\n", i);
+			printf("                  Thread priority: %d\n", gttbl[i].priority);
+			printf("      Run                 |       Wait\n");
+			printf("Total run time:  %f | Total wait time: %f\n", gttbl[i].totalRunTime, gttbl[i].totalWaitTime);
+			printf(" Min. run time:  %f |  Min. wait time: %f\n", gttbl[i].minRunTime, gttbl[i].minWaitTime);
+			printf(" Max. run time:  %f |  Max. wait time: %f\n", gttbl[i].maxRunTime, gttbl[i].maxWaitTime);
+			printf(" Avg. run time:  %f |  Avg. wait time: %f\n", gttbl[i].totalRunTime / gttbl[i].countRunAvg, gttbl[i].totalWaitTime / gttbl[i].countWaitAvg);
+			printf("\n");
+			//sum += gttbl[i].totalRunTime;
     }
     //printf("Sum run time: %f\n", sum); 
     
     /*printf("                     Priority\n");
     printf("                  Time: %f sec.\n\n", (double)time/1000000);
     for (int i = 0; i < MaxGThreads; i++) {
-	printf("Thread id: %d, Priority: %d, run time: %f\n", i, gttbl[i].priority, gttbl[i].totalRunTime);
+			printf("Thread id: %d, Priority: %d, run time: %f\n", i, gttbl[i].priority, gttbl[i].totalRunTime);
     }
     printf("\n");*/
 
@@ -77,10 +77,28 @@ void sigint(int sig) {
 }
 
 
-int main(void) {
+int main(int argc, char* argv[]) {
+
+	if (atoi(argv[1]) == 1) { //rr
+		printf("rr\n");
+		
+	  gtinit();
+		gtgo(f);
+		gtgo(f);
+		gtgo(g);
+		gtgo(g);
+		gtret(1);
+	}
+	else if (atoi(argv[1]) == 2) { //pri
+		printf("pri\n");
+	}
+	else if (atoi(argv[1]) == 3) { //ls
+		printf("ls\n");
+	}
+	return 0;
+  
   signal(SIGINT, sigint);
 
-  // for 100% work
   clock_gettime(CLOCK_MONOTONIC_RAW, &start);
     
   gtinit(10);		// initialize threads, see gthr.c
@@ -88,12 +106,13 @@ int main(void) {
   gtgo(f, 8);		// set f() as second thread
   gtgo(g, 7);		// set g() as third thread
   gtgo(g, 6);		// set g() as fourth thread
-  gtgo(f, 5);
+  
+/*  gtgo(f, 5);
   gtgo(f, 4);
   gtgo(f, 3);
   gtgo(g, 2);
   gtgo(g, 1);
-  gtgo(g, 0);
+  gtgo(g, 0);*/
   
   gtret(1);		// wait until all threads terminate
 }
