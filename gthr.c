@@ -87,8 +87,8 @@ bool gtyield(void) {
 	 	p->actualPriority = p->priority;
 	}
 	
-	else if (p->type == 3) {
-		int randomTicket = rand() % 100;
+	else if (p->type == 3) { // ls
+		int randomTicket = rand() % 101;
 		
 		while (p -> st != Ready) {
 			if (randomTicket >= p->tickets[0] && randomTicket <= p->tickets[1])

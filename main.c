@@ -8,6 +8,7 @@
 #include <unistd.h>
 #include <errno.h>
 #include <time.h>
+#include <string.h>
 
 #include "gthr.h"
 #include "gthr_struct.h"
@@ -43,11 +44,22 @@ void g(void) {
 }
 
 void sigint(int sig) {
-    printf("\n\n                      Statistics\n");
+    printf("\n\n                     Statistics\n");
     clock_gettime(CLOCK_MONOTONIC_RAW, &end);
     uint64_t time = (double)(end.tv_sec - start.tv_sec) * 1000000 + (double)(end.tv_nsec - start.tv_nsec) / 1000;
-    printf("                  Time: %f sec.\n", (double)time/1000000);
-    printf("                      Planovac: %d\n\n", gttbl[0].type);
+    printf("                 Time: %f sec.\n", (double)time/1000000);
+		switch(gttbl[0].type) {
+			case 1:
+  			printf("              Planovac: Round-Robin (RR)\n");
+				break;
+			case 2:
+				printf("       Planovac: Round-Robin with priorities (PRI)\n");
+				break;
+			case 3:
+				printf("          Planovac: Lottery Scheduling (LS)\n");
+				break;
+		}
+    printf("\n");
     
     for (int i = 0; i < MaxGThreads; i++) {
 			printf("                     Thread id: %d\n", i);
@@ -56,7 +68,8 @@ void sigint(int sig) {
 					printf("                  Thread priority: %d\n", gttbl[i].priority);
 					break;
 				case 3:
-					printf("                Thread tickets: %d - %d\n", gttbl[i].tickets[0], gttbl[i].tickets[1]);
+					printf("               Thread tickets: %d - %d (%d)\n", gttbl[i].tickets[0], gttbl[i].tickets[1], (gttbl[i].tickets[1] - gttbl[i].tickets[0]) + 1);
+					break;
 			}
 			printf("      Run                 |       Wait\n");
 			printf("Total run time:  %f | Total wait time: %f\n", gttbl[i].totalRunTime, gttbl[i].totalWaitTime);
@@ -74,30 +87,29 @@ int main(int argc, char* argv[]) {
 	clock_gettime(CLOCK_MONOTONIC_RAW, &start);
  	signal(SIGINT, sigint);
  	int type = 0;
- 	if (argv[1] == NULL) {
- 		printf("null\n");
- 		type = 1;
-	}
-	else if (atoi(argv[1]) == 1) { //rr
-		printf("rr\n");
+ 	
+ 	if (argc != 2) {
+ 		printf("you must choose one param: RR / PRI / LS\n");
+		return 0;
+ 	}
+ 	
+	if (!strcmp(argv[1], "RR")) 
 		type = 1;
-	}
-	else if (atoi(argv[1]) == 2) { //pri
-		printf("pri\n");
+	else if (!strcmp(argv[1], "PRI"))
 		type = 2;
-	}
-	else if (atoi(argv[1]) == 3) { //ls
-		printf("ls\n");
+	else if (!strcmp(argv[1], "LS")) 
 		type = 3;
+	else {
+		printf("wrong params!\n");
+		printf("you must choose one param: RR / PRI / LS\n");
+		return 0;
 	}
-	else 
-		type = 1;
   
-  gtinit(type, 8, 0, 10);		// initialize threads, see gthr.c
-  gtgo(f, type, 6, 11, 20);		// set f() as first thread
+  gtinit(type, 8, 0, 1);		// initialize threads, see gthr.c
+  gtgo(f, type, 6, 2, 20);		// set f() as first thread
   gtgo(f, type, 4, 21, 80);		// set f() as second thread
-  gtgo(g, type, 2, 81, 90);		// set g() as third thread
-  gtgo(g, type, 0, 91, 100);		// set g() as fourth thread
+  gtgo(g, type, 2, 81, 85);		// set g() as third thread
+  gtgo(g, type, 0, 86, 100);		// set g() as fourth thread
   
   /*gtgo(f, 5);
   gtgo(f, 4);
