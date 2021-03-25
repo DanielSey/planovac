@@ -1,0 +1,44 @@
+                     Statistics
+                 Time: 29.951966 sec.
+          Planovac: Lottery Scheduling (LS)
+
+                     Thread id: 0
+               Thread tickets: 0 - 1 (2)
+      Run                 |       Wait
+Total run time:  0.022155 | Total wait time: 29.918572
+ Min. run time:  0.000000 |  Min. wait time: 0.000000
+ Max. run time:  0.000057 |  Max. wait time: 0.019582
+ Avg. run time:  0.000003 |  Avg. wait time: 0.003667
+
+                     Thread id: 1
+               Thread tickets: 2 - 20 (19)
+      Run                 |       Wait
+Total run time:  6.207384 | Total wait time: 23.732583
+ Min. run time:  0.000000 |  Min. wait time: 0.000000
+ Max. run time:  0.006362 |  Max. wait time: 0.018609
+ Avg. run time:  0.000627 |  Avg. wait time: 0.002399
+
+                     Thread id: 2
+               Thread tickets: 21 - 80 (60)
+      Run                 |       Wait
+Total run time:  12.438227 | Total wait time: 17.496831
+ Min. run time:  0.000000 |  Min. wait time: 0.000000
+ Max. run time:  0.005916 |  Max. wait time: 0.010596
+ Avg. run time:  0.000631 |  Avg. wait time: 0.000887
+
+                     Thread id: 3
+               Thread tickets: 81 - 85 (5)
+      Run                 |       Wait
+Total run time:  5.321441 | Total wait time: 24.618364
+ Min. run time:  0.000000 |  Min. wait time: 0.000000
+ Max. run time:  0.005729 |  Max. wait time: 0.016565
+ Avg. run time:  0.000632 |  Avg. wait time: 0.002923
+
+                     Thread id: 4
+               Thread tickets: 86 - 100 (15)
+      Run                 |       Wait
+Total run time:  5.926423 | Total wait time: 24.013198
+ Min. run time:  0.000000 |  Min. wait time: 0.000000
+ Max. run time:  0.006414 |  Max. wait time: 0.018259
+ Avg. run time:  0.000632 |  Avg. wait time: 0.002560
+
