@@ -1,91 +1,44 @@
-                      Statistics
-                  Time: 36.326822 sec.
+                     Statistics
+                 Time: 29.951966 sec.
+          Planovac: Lottery Scheduling (LS)
 
                      Thread id: 0
-                  Thread priority: 10
+               Thread tickets: 0 - 1 (2)
       Run                 |       Wait
-Total run time:  0.004719 | Total wait time: 36.303011
- Min. run time:  0.000000 |  Min. wait time: 0.018591
- Max. run time:  0.000064 |  Max. wait time: 0.045743
- Avg. run time:  0.000003 |  Avg. wait time: 0.023512
+Total run time:  0.022155 | Total wait time: 29.918572
+ Min. run time:  0.000000 |  Min. wait time: 0.000000
+ Max. run time:  0.000057 |  Max. wait time: 0.019582
+ Avg. run time:  0.000003 |  Avg. wait time: 0.003667
 
                      Thread id: 1
-                  Thread priority: 9
+               Thread tickets: 2 - 20 (19)
       Run                 |       Wait
-Total run time:  1.037190 | Total wait time: 35.283150
- Min. run time:  0.000004 |  Min. wait time: 0.016011
- Max. run time:  0.004138 |  Max. wait time: 0.034335
- Avg. run time:  0.000604 |  Avg. wait time: 0.020561
+Total run time:  6.207384 | Total wait time: 23.732583
+ Min. run time:  0.000000 |  Min. wait time: 0.000000
+ Max. run time:  0.006362 |  Max. wait time: 0.018609
+ Avg. run time:  0.000627 |  Avg. wait time: 0.002399
 
                      Thread id: 2
-                  Thread priority: 8
+               Thread tickets: 21 - 80 (60)
       Run                 |       Wait
-Total run time:  1.179594 | Total wait time: 35.128225
- Min. run time:  0.000001 |  Min. wait time: 0.014386
- Max. run time:  0.003994 |  Max. wait time: 0.032680
- Avg. run time:  0.000611 |  Avg. wait time: 0.018201
+Total run time:  12.438227 | Total wait time: 17.496831
+ Min. run time:  0.000000 |  Min. wait time: 0.000000
+ Max. run time:  0.005916 |  Max. wait time: 0.010596
+ Avg. run time:  0.000631 |  Avg. wait time: 0.000887
 
                      Thread id: 3
-                  Thread priority: 7
+               Thread tickets: 81 - 85 (5)
       Run                 |       Wait
-Total run time:  1.345405 | Total wait time: 34.968254
- Min. run time:  0.000506 |  Min. wait time: 0.011515
- Max. run time:  0.004878 |  Max. wait time: 0.030450
- Avg. run time:  0.000610 |  Avg. wait time: 0.015851
+Total run time:  5.321441 | Total wait time: 24.618364
+ Min. run time:  0.000000 |  Min. wait time: 0.000000
+ Max. run time:  0.005729 |  Max. wait time: 0.016565
+ Avg. run time:  0.000632 |  Avg. wait time: 0.002923
 
                      Thread id: 4
-                  Thread priority: 6
+               Thread tickets: 86 - 100 (15)
       Run                 |       Wait
-Total run time:  1.583994 | Total wait time: 34.736336
- Min. run time:  0.000492 |  Min. wait time: 0.009582
- Max. run time:  0.005325 |  Max. wait time: 0.029154
- Avg. run time:  0.000615 |  Avg. wait time: 0.013495
-
-                     Thread id: 5
-                  Thread priority: 5
-      Run                 |       Wait
-Total run time:  1.891820 | Total wait time: 34.415263
- Min. run time:  0.000004 |  Min. wait time: 0.006925
- Max. run time:  0.004071 |  Max. wait time: 0.027491
- Avg. run time:  0.000613 |  Avg. wait time: 0.011145
-
-                     Thread id: 6
-                  Thread priority: 4
-      Run                 |       Wait
-Total run time:  2.378469 | Total wait time: 33.941386
- Min. run time:  0.000004 |  Min. wait time: 0.004679
- Max. run time:  0.007819 |  Max. wait time: 0.020912
- Avg. run time:  0.000616 |  Avg. wait time: 0.008791
-
-                     Thread id: 7
-                  Thread priority: 3
-      Run                 |       Wait
-Total run time:  3.174894 | Total wait time: 33.144506
- Min. run time:  0.000500 |  Min. wait time: 0.003127
- Max. run time:  0.005369 |  Max. wait time: 0.020972
- Avg. run time:  0.000617 |  Avg. wait time: 0.006438
-
-                     Thread id: 8
-                  Thread priority: 2
-      Run                 |       Wait
-Total run time:  4.756396 | Total wait time: 31.561147
- Min. run time:  0.000002 |  Min. wait time: 0.001578
- Max. run time:  0.005120 |  Max. wait time: 0.016697
- Avg. run time:  0.000616 |  Avg. wait time: 0.004087
-
-                     Thread id: 9
-                  Thread priority: 1
-      Run                 |       Wait
-Total run time:  9.430637 | Total wait time: 26.878279
- Min. run time:  0.000000 |  Min. wait time: 0.000004
- Max. run time:  0.009405 |  Max. wait time: 0.013929
- Avg. run time:  0.000611 |  Avg. wait time: 0.001740
-
-                     Thread id: 10
-                  Thread priority: 0
-      Run                 |       Wait
-Total run time:  9.503542 | Total wait time: 26.800404
- Min. run time:  0.000001 |  Min. wait time: 0.000003
- Max. run time:  0.008653 |  Max. wait time: 0.014587
- Avg. run time:  0.000615 |  Avg. wait time: 0.001735
+Total run time:  5.926423 | Total wait time: 24.013198
+ Min. run time:  0.000000 |  Min. wait time: 0.000000
+ Max. run time:  0.006414 |  Max. wait time: 0.018259
+ Avg. run time:  0.000632 |  Avg. wait time: 0.002560
 
