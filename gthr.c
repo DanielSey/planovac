@@ -91,7 +91,7 @@ bool gtyield(void) {
 		int randomTicket = rand() % 100;
 		
 		while (p -> st != Ready) {
-			if (p->tickets[0] >= randomTicket && p->tickets[1] <= randomTicket)
+			if (randomTicket >= p->tickets[0] && randomTicket <= p->tickets[1])
 				break;
 		  if (++p == & gttbl[MaxGThreads])
 	    	p = & gttbl[0];
