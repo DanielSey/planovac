@@ -48,7 +48,7 @@ void sigint(int sig) {
     clock_gettime(CLOCK_MONOTONIC_RAW, &end);
     uint64_t time = (double)(end.tv_sec - start.tv_sec) * 1000000 + (double)(end.tv_nsec - start.tv_nsec) / 1000;
     printf("                 Time: %f sec.\n", (double)time/1000000);
-		switch(gttbl[0].type) {
+		switch(stype) {
 			case 1:
   			printf("              Planovac: Round-Robin (RR)\n");
 				break;
@@ -63,7 +63,7 @@ void sigint(int sig) {
     
     for (int i = 0; i < MaxGThreads; i++) {
 			printf("                     Thread id: %d\n", i);
-			switch(gttbl[i].type) {
+			switch(stype) {
 				case 2:
 					printf("                  Thread priority: %d\n", gttbl[i].priority);
 					break;
@@ -106,10 +106,10 @@ int main(int argc, char* argv[]) {
 	}
   
   gtinit(type, 8, 0, 1);		// initialize threads, see gthr.c
-  gtgo(f, type, 6, 2, 20);		// set f() as first thread
-  gtgo(f, type, 4, 21, 80);		// set f() as second thread
-  gtgo(g, type, 2, 81, 85);		// set g() as third thread
-  gtgo(g, type, 0, 86, 100);		// set g() as fourth thread
+  gtgo(f, 6, 2, 20);		// set f() as first thread
+  gtgo(f, 4, 21, 80);		// set f() as second thread
+  gtgo(g, 2, 81, 85);		// set g() as third thread
+  gtgo(g, 0, 86, 100);		// set g() as fourth thread
   
   /*gtgo(f, 5);
   gtgo(f, 4);
