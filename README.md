@@ -1,2 +1,2 @@
-# Plánovač - úkol 1, 2 a 3
-omsz cviko, vsechnz části
+# Plánovač - úkol 1, 2, 3 a 4
+omsz cvika - planovac
