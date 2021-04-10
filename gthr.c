@@ -7,6 +7,8 @@
 #include <unistd.h>
 #include <errno.h>
 #include <time.h>
+#include <pthread.h>
+#include <unistd.h> 
 
 #include "gthr.h"
 #include "gthr_struct.h"
@@ -17,7 +19,7 @@ void gthandle(int sig) {
 }
 
 // initialize first thread as current context
-void gtinit(int type, int priority, int a, int b) {
+void gtinit(int type, int priority, int a, int b, int thr_id) {
   gtcur = & gttbl[0];			// initialize current thread with thread #0
   gtcur -> st = Running;		// set current to running
   
@@ -39,6 +41,8 @@ void gtinit(int type, int priority, int a, int b) {
   
   gtcur -> tickets[0] = a;
 	gtcur -> tickets[1] = b;
+
+  gtcur -> thr_id = thr_id;
 	
 	stype = type;
   
@@ -123,7 +127,14 @@ bool gtyield(void) {
   clock_gettime(CLOCK_MONOTONIC_RAW, &gtcur->startWaitClock);
   
   p -> st = Running;
-  
+  if (p->totalRunTime >= 3.0 && p->totalRunTime <= 3.1) {
+    resetStats2(p->thr_id);
+    setpriority(p->thr_id, 0);
+    //sleep(3000);
+    //printStats();
+    //exit(0);
+  }
+
   // stop wait time of new thread
   clock_gettime(CLOCK_MONOTONIC_RAW, &p->endWaitClock);
   uint64_t time2 = (double)(p->endWaitClock.tv_sec - p->startWaitClock.tv_sec) * 1000000 + (double)(p->endWaitClock.tv_nsec - p->startWaitClock.tv_nsec) / 1000;
@@ -155,7 +166,7 @@ void gtstop(void) {
 }
 
 // create new thread by providing pointer to function that will act like "run" method
-int gtgo(void( * f)(void), int priority, int a, int b) {
+int gtgo(void( * f)(void), int priority, int a, int b, int thr_id) {
   char * stack;
   struct gt * p;
 
@@ -192,6 +203,11 @@ int gtgo(void( * f)(void), int priority, int a, int b) {
  
   p -> tickets[0] = a;
 	p -> tickets[1] = b;
+
+  p -> thr_id = thr_id;
+  if (thr_id == 4) {
+    tSleep(10000);
+  }
   
   return 0;
 }
@@ -227,4 +243,83 @@ int uninterruptibleNanoSleep(time_t sec, long nanosec) {
     }
   } while (req.tv_sec > 0 || req.tv_nsec > 0);
   return 0; /* Return success */
+}
+
+void setpriority(int thr_id, int prio) {
+  for (int i = 0; i < MaxGThreads; i++) {
+    if (gttbl[i].thr_id == thr_id) {
+      gttbl[i].priority = prio;
+      gttbl[i].actualPriority = prio;
+    }
+  }
+}
+
+void tSleep(int ms) {
+  gtcur->st = Stopped;
+  //sleep(ms/1000);
+  //gtcur->st = Ready;
+}
+
+void resetStats() {
+  for (int i = 0; i < MaxGThreads; i++) {
+    // set up default values
+    gttbl[i].totalRunTime = 0.0;
+    gttbl[i].minRunTime = 99999.0;
+    gttbl[i].maxRunTime = 0.0;
+    gttbl[i].countRunAvg = 0;
+    gttbl[i].totalWaitTime = 0.0;
+    gttbl[i].minWaitTime = 99999.0;
+    gttbl[i].maxWaitTime = 0.0;
+    gttbl[i].countWaitAvg = 0;
+  }
+}
+void resetStats2(int thr_id) {
+  for (int i = 0; i < MaxGThreads; i++) {
+    if (gttbl[i].thr_id == thr_id) {
+      gttbl[i].totalRunTime = 0.0;
+      gttbl[i].minRunTime = 99999.0;
+      gttbl[i].maxRunTime = 0.0;
+      gttbl[i].countRunAvg = 0;
+      gttbl[i].totalWaitTime = 0.0;
+      gttbl[i].minWaitTime = 99999.0;
+      gttbl[i].maxWaitTime = 0.0;
+      gttbl[i].countWaitAvg = 0;
+    }
+  }
+}
+
+
+void printStats() {
+  printf("\n\n                     Statistics\n");
+	switch(stype) {
+		case 1:
+			printf("              Planovac: Round-Robin (RR)\n");
+			break;
+		case 2:
+			printf("       Planovac: Round-Robin with priorities (PRI)\n");
+			break;
+		case 3:
+			printf("          Planovac: Lottery Scheduling (LS)\n");
+			break;
+	}
+  printf("\n");
+  
+  for (int i = 0; i < MaxGThreads; i++) {
+    printf("                     Custom ID: %d\n", gttbl[i].thr_id);
+    printf("                     Thread id: %d\n", i);
+    switch(stype) {
+      case 2:
+        printf("                  Thread priority: %d\n", gttbl[i].priority);
+        break;
+      case 3:
+        printf("               Thread tickets: %d - %d (%d)\n", gttbl[i].tickets[0], gttbl[i].tickets[1], (gttbl[i].tickets[1] - gttbl[i].tickets[0]) + 1);
+        break;
+    }
+    printf("      Run                 |       Wait\n");
+    printf("Total run time:  %f | Total wait time: %f\n", gttbl[i].totalRunTime, gttbl[i].totalWaitTime);
+    printf(" Min. run time:  %f |  Min. wait time: %f\n", gttbl[i].minRunTime, gttbl[i].minWaitTime);
+    printf(" Max. run time:  %f |  Max. wait time: %f\n", gttbl[i].maxRunTime, gttbl[i].maxWaitTime);
+    printf(" Avg. run time:  %f |  Avg. wait time: %f\n", gttbl[i].totalRunTime / gttbl[i].countRunAvg, gttbl[i].totalWaitTime / gttbl[i].countWaitAvg);
+    printf("\n");
+  }
 }

@@ -20,9 +20,12 @@ struct gt {
     Unused,
     Running,
     Ready,
+    Stopped
   }
   st;
   
+  int thr_id;
+
   int priority;
   int actualPriority;
   int tickets[2];
@@ -40,12 +43,17 @@ struct gt {
   int countWaitAvg;
 };
 
-void gtinit(int type, int priority, int a, int b);				// initialize gttbl
+void gtinit(int type, int priority, int a, int b, int thr_id);				// initialize gttbl
 void gtret(int ret);			// terminate thread
 void gtswtch(struct gtctx * old, struct gtctx * new);	// declaration from gtswtch.S
 bool gtyield(void);				// yield and switch to another thread
 void gtstop(void);				// terminate current thread
-int gtgo(void( * f)(void), int priority, int a, int b);		// create new thread and set f as new "run" function
+int gtgo(void( * f)(void), int priority, int a, int b, int thr_id);		// create new thread and set f as new "run" function
 void resetsig(int sig);			// reset signal
 void gthandle(int sig);			// periodically triggered by alarm
 int uninterruptibleNanoSleep(time_t sec, long nanosec);	// uninterruptible sleep
+void setpriority(int thr_id, int prio);
+void tSleep(int ms);
+void resetStats();
+void resetStats2(int thr_id);
+void printStats();
